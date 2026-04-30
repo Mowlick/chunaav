@@ -1,0 +1,212 @@
+export interface GlossaryTerm {
+  id: string;
+  term: string;
+  phonetic?: string;
+  category: GlossaryCategory;
+  shortDef: string;
+  shortDefSimple: string;
+  longDef: string;
+  longDefSimple: string;
+  relatedTerms?: string[];
+  usedInContext?: string; // A sentence using this term that will be jargon-highlighted
+}
+
+export type GlossaryCategory =
+  | 'Voting Technology'
+  | 'Legal & Constitutional'
+  | 'Campaigning'
+  | 'Electoral Bodies'
+  | 'Parliamentary'
+  | 'Processes';
+
+export const GLOSSARY_CATEGORIES: GlossaryCategory[] = [
+  'Voting Technology',
+  'Legal & Constitutional',
+  'Campaigning',
+  'Electoral Bodies',
+  'Parliamentary',
+  'Processes',
+];
+
+export const GLOSSARY_TERMS: GlossaryTerm[] = [
+  {
+    id: 'evm',
+    term: 'EVM',
+    phonetic: 'ee-vee-em',
+    category: 'Voting Technology',
+    shortDef: 'Electronic Voting Machine — the tamper-resistant device used to cast and record votes.',
+    shortDefSimple: 'A special machine you press to cast your vote instead of using paper.',
+    longDef: `An Electronic Voting Machine (EVM) is a standalone, battery-powered device used in Indian elections since 1982. It consists of a Control Unit (held by the Presiding Officer) and a Balloting Unit (on which voters press buttons). EVMs are manufactured solely by ECIL and BEL — both government-owned companies — and undergo multi-stage technical checks before deployment. They are air-gapped (never connected to the internet) and use one-time programmable chips, making remote tampering technically impossible according to independent audits. The Supreme Court has upheld their reliability multiple times.`,
+    longDefSimple: `An EVM is like a super-safe calculator for votes. You press the button next to your favourite candidate's name and picture, and the machine records your vote. It doesn't connect to the internet, so nobody can hack it from outside. The government checks these machines very carefully before and after every election.`,
+    relatedTerms: ['VVPAT', 'NOTA', 'Returning Officer'],
+    usedInContext: `The Presiding Officer activated the EVM at the polling station, and each voter pressed their candidate's button on the Balloting Unit.`,
+  },
+  {
+    id: 'vvpat',
+    term: 'VVPAT',
+    phonetic: 'vee-vee-pat',
+    category: 'Voting Technology',
+    shortDef: 'Voter Verifiable Paper Audit Trail — prints a 7-second visible slip confirming your vote.',
+    shortDefSimple: 'A machine that shows you a quick paper receipt of who you voted for.',
+    longDef: `The Voter Verifiable Paper Audit Trail (VVPAT) is a hardware attachment to the EVM that provides independent verification of votes cast. When a voter presses a button, the VVPAT prints a slip containing the serial number, name, and symbol of the candidate and displays it through a glass window for exactly 7 seconds, after which it is cut and drops into a sealed container. The VVPAT does not affect the EVM count but allows post-election audits. Since 2019, VVPATs are mandatory across all polling booths in India.`,
+    longDefSimple: `VVPAT is like a receipt machine at a shop. After you vote, it prints a tiny paper showing who you chose, and you can see it for 7 seconds through a little glass window. Then it locks itself away safely. This makes sure nobody can say the machines cheated, because there's a paper record!`,
+    relatedTerms: ['EVM', 'Returning Officer'],
+    usedInContext: `After casting her vote on the EVM, the voter watched the VVPAT slip appear behind the glass window before it fell into the sealed box.`,
+  },
+  {
+    id: 'nota',
+    term: 'NOTA',
+    phonetic: 'no-tah',
+    category: 'Voting Technology',
+    shortDef: 'None of the Above — the option to reject all candidates without abstaining.',
+    shortDefSimple: 'A button you press if you don\'t like any of the people running for election.',
+    longDef: `NOTA (None of the Above) was introduced in Indian elections by a 2013 Supreme Court judgment (PUCL vs. Union of India). It appears as the last option on every EVM, with a distinctive symbol. Voting NOTA is different from abstaining — it is an active democratic statement. However, NOTA votes are currently discarded for the purpose of determining the winner: the candidate with the highest number of non-NOTA votes wins, regardless of how many NOTA votes were cast. Some states are pushing for a "right to recall" model where a NOTA majority would trigger a fresh election, but this has not yet been implemented nationally.`,
+    longDefSimple: `NOTA is like being at a restaurant and telling the waiter: "I don't want anything on this menu." If you don't like any of the politicians running, you can press NOTA instead of picking someone you don't believe in. It's your way of saying "Try harder!" But right now, even if everyone pressed NOTA, the candidate with the most real votes would still win.`,
+    relatedTerms: ['EVM', 'VVPAT'],
+    usedInContext: `Frustrated with all the candidates in her constituency, she chose to vote NOTA, exercising her court-upheld right to reject.`,
+  },
+  {
+    id: 'mcc',
+    term: 'Model Code of Conduct',
+    phonetic: 'moh-del kohd',
+    category: 'Campaigning',
+    shortDef: 'The MCC is a set of guidelines regulating party and candidate behaviour during election season.',
+    shortDefSimple: 'The rulebook that tells politicians how to behave properly during an election.',
+    longDef: `The Model Code of Conduct (MCC) is a set of guidelines issued by the Election Commission of India (ECI) that comes into force from the day elections are announced until the results are declared. It is not a statutory law — it derives its authority from the ECI's constitutional mandate and is enforced through moral suasion, warnings, and in extreme cases, through invoking statutory provisions. The MCC prohibits the use of government resources for party campaigning, bans new policy announcements (freebies) that might influence voters, regulates campaign rallies and advertisements, prohibits hate speech and communal appeals, and bars government officials from being transferred by the ruling party for electoral advantage.`,
+    longDefSimple: `The MCC is like the rules in a board game. When elections start, there's a big rulebook that all politicians must follow. They can't use government money for their campaigns, can't give out free gifts to get votes, and can't say mean things about other religions. The Election Commission is like the referee who makes sure everyone plays fair.`,
+    relatedTerms: ['Election Commission', 'Affidavit', 'Nomination Paper'],
+    usedInContext: `The ruling party was issued a notice for violating the Model Code of Conduct by inaugurating a government scheme just days before polling.`,
+  },
+  {
+    id: 'affidavit',
+    term: 'Affidavit',
+    phonetic: 'af-ih-DAY-vit',
+    category: 'Legal & Constitutional',
+    shortDef: 'A sworn statement of facts — candidates must file affidavits declaring assets, liabilities, and criminal cases.',
+    shortDefSimple: 'A legal "I promise this is true" document candidates must sign before the election.',
+    longDef: `In the electoral context, an affidavit (Form 26) is a mandatory self-declaration that every candidate must submit along with their nomination papers. It must disclose: all criminal cases pending or concluded against the candidate, educational qualifications, assets (movable and immovable) of the candidate and spouse, liabilities, and sources of income. This requirement was mandated by the Supreme Court in 2003 (Association for Democratic Reforms case) to ensure voters make informed choices. False affidavits are a criminal offence under the Indian Penal Code and can result in disqualification of the candidate.`,
+    longDefSimple: `An affidavit is like a "truth document." Before the election, every person who wants to run must write down: Have they ever been in trouble with the law? How much money do they have? What did they study? They have to promise this is all true. If they lie, they can get disqualified! It helps voters know who they're really voting for.`,
+    relatedTerms: ['Nomination Paper', 'Returning Officer', 'Model Code of Conduct'],
+    usedInContext: `The candidate filed his affidavit revealing two pending criminal cases and assets worth ₹4.2 crore before the Returning Officer.`,
+  },
+  {
+    id: 'delimitation',
+    term: 'Delimitation',
+    phonetic: 'deh-lim-ih-TAY-shun',
+    category: 'Processes',
+    shortDef: 'The process of redrawing electoral constituency boundaries based on census population data.',
+    shortDefSimple: 'Redrawing the map of which area belongs to which voting zone.',
+    longDef: `Delimitation is the act of fixing the number and boundaries of parliamentary and assembly constituencies. It is carried out by the Delimitation Commission — a powerful body whose orders cannot be challenged in any court. The commission uses census population data to ensure roughly equal representation (one vote = one value). Constituencies may be merged, split, or redrawn. Certain constituencies are also reserved for Scheduled Castes (SC) and Scheduled Tribes (ST) based on their population percentage in that area. India's constituency boundaries were last significantly redrawn after the 1971 census; the next major delimitation is expected after the 2026 census is published.`,
+    longDefSimple: `India is divided into voting zones called constituencies. Delimitation is when the government redraws these zone boundaries — like redrawing the lines of your school's football field to make sure all teams have fair space. It happens after the population count (census) to make sure every area has fair representation.`,
+    relatedTerms: ['Constituency', 'Election Commission'],
+    usedInContext: `The Delimitation Commission's new map merged two rural constituencies into one due to the population shift documented in the census.`,
+  },
+  {
+    id: 'anti-defection',
+    term: 'Anti-Defection Law',
+    phonetic: 'an-tee deh-FEK-shun',
+    category: 'Legal & Constitutional',
+    shortDef: 'The 10th Schedule of the Constitution — disqualifies elected members who switch parties without permission.',
+    shortDefSimple: 'The law that says you can\'t switch political teams after getting elected.',
+    longDef: `The Anti-Defection Law, enshrined in the 10th Schedule of the Constitution (added by the 52nd Amendment, 1985), was Parliament's response to the epidemic of political defections in the 1960s and 70s. It disqualifies an elected Member of Parliament or state legislature who voluntarily gives up party membership, votes against the party whip without prior permission, or abstains from voting contrary to party directions. The Speaker/Chairman of the respective house is the deciding authority. However, a merger of two-thirds of a legislative party with another party is exempt. Critics argue this law gives excessive power to party leaderships and undermines individual legislative independence.`,
+    longDefSimple: `The Anti-Defection Law stops elected politicians from switching teams after they win. Imagine winning a cricket match with Team A, then joining Team B the next day — that wouldn't be fair to the fans who voted for you as part of Team A! If you switch without permission, you lose your seat in Parliament. It was made because in the old days, politicians were changing teams almost every week! 🏏`,
+    relatedTerms: ['Floor Test', 'Whip', 'Parliament'],
+    usedInContext: `Three MLAs who voted against their party's direction on the floor of the assembly were disqualified under the Anti-Defection Law.`,
+  },
+  {
+    id: 'fptp',
+    term: 'First-Past-the-Post',
+    phonetic: 'first-past-the-post',
+    category: 'Processes',
+    shortDef: 'India\'s electoral system — the candidate with the most votes wins, even without a majority.',
+    shortDefSimple: 'Whoever gets the most votes wins — even if most people voted against them.',
+    longDef: `India uses the First-Past-the-Post (FPTP) system, also called plurality voting. In each constituency, voters cast one vote, and the candidate with the highest number of votes wins — there is no requirement for an absolute majority (>50%). This means a candidate could win with just 25-30% of the vote if the opposition is split. FPTP tends to produce strong, stable governments (as the largest party often wins a disproportionately large share of seats), but critics argue it distorts representation — parties with concentrated regional support are advantaged, while parties with broad but thin national support can win many votes but few seats. Proportional Representation systems (used in many European countries) are often proposed as an alternative.`,
+    longDefSimple: `In FPTP, the winner just needs the MOST votes — not more than half. So if 4 people run and they get 30%, 28%, 25%, and 17% of votes, the one with 30% wins! It's like running a race where you just need to finish first, not get a perfect score. Some people think this is unfair because most people actually voted against the winner.`,
+    relatedTerms: ['Constituency', 'Delimitation', 'Lok Sabha'],
+    usedInContext: `Under the First-Past-the-Post system, the candidate won with just 31% of votes because four other candidates split the remaining ballots.`,
+  },
+  {
+    id: 'floor-test',
+    term: 'Floor Test',
+    phonetic: 'flor test',
+    category: 'Parliamentary',
+    shortDef: 'A vote of confidence in the legislature to prove a government commands majority support.',
+    shortDefSimple: 'A vote in Parliament to check if the ruling party still has enough friends to stay in charge.',
+    longDef: `A floor test (or vote of confidence/no-confidence) is a constitutional mechanism by which a government demonstrates it commands the confidence — i.e., the support of a majority — of the elected legislature. The Governor/President may ask a Chief Minister or Prime Minister to prove their majority on the floor of the house if there is uncertainty about whether they command majority support. All legislators vote "Aye" (in favour) or "No." If the government loses, it must resign. Floor tests have been constitutionally significant in many Indian political crises, including the 1998 Vajpayee government's defeat by a single vote and the Karnataka political crises of 2018 and 2019.`,
+    longDefSimple: `A floor test is like asking "Who's on whose team?" in Parliament. If there's doubt about whether the leader has enough supporters, everyone votes to show if the leader should stay or go. If more than half say "No," the leader must resign. It's like a class taking a vote on whether they want to keep the same class captain.`,
+    relatedTerms: ['Anti-Defection Law', 'Hung Parliament', 'Parliament'],
+    usedInContext: `After three coalition partners withdrew support, the Chief Minister was asked by the Governor to prove his majority in a floor test.`,
+  },
+  {
+    id: 'hung-parliament',
+    term: 'Hung Parliament',
+    phonetic: 'hung par-luh-ment',
+    category: 'Parliamentary',
+    shortDef: 'When no single party wins an outright majority of seats, requiring coalition building.',
+    shortDefSimple: 'When no team wins enough votes to rule alone — they need to make friends with other teams.',
+    longDef: `A hung parliament (or hung assembly) occurs when no single political party wins more than half of the seats in the legislature — 272 out of 543 in the Lok Sabha. In such scenarios, the President invites the leader of the largest single party or the leader of the coalition most likely to command majority support to form the government. Coalition negotiations — often prolonged and transactional — decide which parties agree to govern together. India has seen hung parliaments frequently since 1989 (when the era of single-party majorities ended), with the 1996–98 period seeing three different Prime Ministers in as many years.`,
+    longDefSimple: `A hung parliament is when no single team wins enough seats to be in charge by themselves — like a cricket match where no team reaches the winning score. So the teams have to join up and make bigger teams. This can be messy because they have to agree on lots of things before they can start governing.`,
+    relatedTerms: ['Floor Test', 'Anti-Defection Law', 'Parliament'],
+    usedInContext: `The inconclusive election results led to a hung parliament, forcing regional parties into weeks of coalition negotiations.`,
+  },
+  {
+    id: 'election-commission',
+    term: 'Election Commission of India',
+    phonetic: 'ih-LEK-shun kuh-MISH-un',
+    category: 'Electoral Bodies',
+    shortDef: 'The constitutional body responsible for administering all elections in India.',
+    shortDefSimple: 'The big referee organisation that runs all elections and makes sure they\'re fair.',
+    longDef: `The Election Commission of India (ECI) is an autonomous constitutional authority established under Article 324 of the Indian Constitution. It is responsible for administering the election processes for Lok Sabha, Rajya Sabha, state assemblies, and the offices of President and Vice-President. The ECI is headed by the Chief Election Commissioner, assisted by Election Commissioners, all of whom are protected from arbitrary removal (the CEC can only be removed through a process similar to that of a Supreme Court judge). The ECI announces election schedules, enforces the Model Code of Conduct, recognises political parties and allots symbols, and resolves disputes related to elections.`,
+    longDefSimple: `The Election Commission is like the head referee for all of India's elections. They decide WHEN elections happen, make sure everyone follows the rules (Model Code of Conduct), give each party their special logo (like a hand or a lotus flower), and make sure the voting is fair. Nobody — not even the Prime Minister — can tell them what to do! They're totally independent.`,
+    relatedTerms: ['Model Code of Conduct', 'Returning Officer', 'Delimitation'],
+    usedInContext: `The Election Commission of India announced the schedule for the general election, simultaneously triggering the Model Code of Conduct.`,
+  },
+  {
+    id: 'returning-officer',
+    term: 'Returning Officer',
+    phonetic: 'reh-TURN-ing OFF-ih-ser',
+    category: 'Electoral Bodies',
+    shortDef: 'A government officer responsible for conducting elections in a constituency — from nominations to results.',
+    shortDefSimple: 'The government\'s person in charge of running the election in one area.',
+    longDef: `A Returning Officer (RO) is the key administrative official appointed for each constituency, responsible for the complete management of elections in that area. Their duties include accepting and scrutinising nomination papers (and affidavits), presiding over the draw of lots for ballot paper positions, setting up polling stations, receiving EVM machines and ensuring their proper functioning, overseeing the actual polling day, supervising vote counting, and finally declaring the election result. The RO works directly under the Election Commission's supervision and has quasi-judicial powers to reject invalid nominations.`,
+    longDefSimple: `The Returning Officer is like the class teacher in charge of an exam — but for elections. They check if candidates are eligible, set up voting booths, count the votes, and announce who won. They're the boss of elections in one specific area (constituency) and report to the Election Commission.`,
+    relatedTerms: ['Nomination Paper', 'Affidavit', 'Election Commission'],
+    usedInContext: `The Returning Officer rejected three nomination papers after finding that the candidates had not submitted the mandatory affidavit correctly.`,
+  },
+  {
+    id: 'exit-poll',
+    term: 'Exit Poll',
+    phonetic: 'EK-sit pohl',
+    category: 'Processes',
+    shortDef: 'A survey of voters immediately after they vote, used to predict election results before counting.',
+    shortDefSimple: 'Asking people "Who did you vote for?" right after they leave the voting booth to guess who might win.',
+    longDef: `An exit poll is a sample survey conducted by polling agencies outside polling stations immediately after voters cast their votes. Voters are asked about their choice (and sometimes demographic information) to construct a statistical model predicting the final result. In India, exit polls may not be published during the voting phases — they can only be broadcast after the last phase of voting concludes, under Section 126A of the Representation of the People Act. Exit polls are frequently inaccurate, particularly in India where voters from rural areas, minority communities, and first-time voters are often under-sampled. They are distinguished from opinion polls (pre-election surveys) and from the actual election results.`,
+    longDefSimple: `After you vote, someone might ask you "Who did you vote for?" That survey is an exit poll. Agencies collect thousands of these answers and try to guess who will win before the official counting starts. But they're not always right — especially in India where it's hard to survey every kind of person. It's like trying to predict the weather!`,
+    relatedTerms: ['Returning Officer', 'EVM'],
+    usedInContext: `Exit polls predicted a comfortable majority for the ruling alliance, though the actual results the next day told a different story.`,
+  },
+  {
+    id: 'constituency',
+    term: 'Constituency',
+    phonetic: 'kon-STICH-oo-en-see',
+    category: 'Processes',
+    shortDef: 'A specific geographic area that elects one representative to Parliament or the state assembly.',
+    shortDefSimple: 'A specific neighbourhood or region that gets to choose one person to represent them.',
+    longDef: `A constituency (or electoral division) is a geographically defined area for the purpose of elections. India has 543 parliamentary constituencies for Lok Sabha elections and over 4,000 state assembly constituencies. Each parliamentary constituency elects one Member of Parliament (MP) to the Lok Sabha. Constituency boundaries are determined by the Delimitation Commission and are broadly based on population data. Constituencies are classified as General, SC-reserved, or ST-reserved. Within each parliamentary constituency, there are typically 5–10 state assembly segments — so an MP's constituency contains several MLAs' constituencies.`,
+    longDefSimple: `A constituency is like the "team area" in elections. India is divided into 543 pieces — like 543 puzzle pieces. Each piece is a constituency. The people living in one piece choose one person (an MP) to speak for them in Parliament. Big cities might have many constituencies and small towns might share one. It's all about making sure every area has someone to represent them!`,
+    relatedTerms: ['Delimitation', 'Returning Officer', 'First-Past-the-Post'],
+    usedInContext: `The candidate campaigned tirelessly across all 1,800 villages in her constituency, meeting over 200,000 voters in the final week.`,
+  },
+  {
+    id: 'election-bond',
+    term: 'Election Bond',
+    phonetic: 'ih-LEK-shun bond',
+    category: 'Campaigning',
+    shortDef: 'A financial instrument introduced in 2018 to fund political parties — struck down by the Supreme Court in 2024.',
+    shortDefSimple: 'A special banking voucher companies could buy to give money to political parties — now banned.',
+    longDef: `The Electoral Bond Scheme, introduced in 2018 by the Finance Act, allowed any Indian citizen or company to purchase interest-free bonds from the State Bank of India (SBI) in specified denominations and donate them to registered political parties. The controversial feature was anonymity — donors' identities were not publicly disclosed. Supporters argued this cleaned up cash donations; critics called it a tool for unlimited, anonymous corporate funding of ruling parties. In February 2024, the Supreme Court unanimously struck down the scheme as unconstitutional, holding that it violated voters' right to information about political funding. The court ordered the SBI to disclose all past purchasers and recipient parties — revealing ₹12,000+ crore in bonds.`,
+    longDefSimple: `An election bond was like a secret money coupon. Companies could buy these coupons from the bank and give them to political parties — and nobody had to say who gave the money! In 2024, the Supreme Court said this was wrong and banned it, because voters have a right to know who is funding their politicians. It was like a secret club for political donations.`,
+    relatedTerms: ['Model Code of Conduct', 'Election Commission'],
+    usedInContext: `The Supreme Court's 2024 judgment invalidated the Electoral Bond scheme, ordering full disclosure of all donors and recipient parties.`,
+  },
+];
