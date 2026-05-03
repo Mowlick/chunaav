@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
     // Using gemini-1.5-flash which is the standard identifier for the fast model
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash-lite',
+      model: 'gemini-1.5-flash',
     });
 
     // We can also prepend the system instruction as a "user" message if the SDK property fails
