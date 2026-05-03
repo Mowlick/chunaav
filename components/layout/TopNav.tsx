@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppStore } from '@/store/appStore';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { ELI5Toggle } from './ELI5Toggle';
 import { CivicPointsPill } from './CivicPointsPill';
 import { BadgesButton } from './BadgesButton';
@@ -26,6 +27,7 @@ export function TopNav() {
 
       {/* Right actions */}
       <div className="topnav-actions">
+        <LanguageSwitcher />
         <ELI5Toggle />
         <CivicPointsPill />
         <BadgesButton />

@@ -97,10 +97,14 @@ const STATS = [
 ];
 
 export default function HomePage() {
-  const { isSimplifiedMode, civicPoints } = useAppStore();
+  const { isSimplifiedMode, civicPoints, isSidebarCollapsed, t } = useAppStore();
 
   return (
-    <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+    <div style={{ 
+      maxWidth: 1000, 
+      margin: isSidebarCollapsed ? '0 auto' : '0 auto 0 4rem',
+      transition: 'margin 0.3s cubic-bezier(0.4, 0, 0.2, 1)' 
+    }}>
 
       {/* ── Hero ───────────────────────────────────────────── */}
       <section aria-labelledby="hero-heading" style={{ textAlign: 'center', padding: '3.5rem 0 2.5rem' }}>
@@ -110,13 +114,13 @@ export default function HomePage() {
         </div>
 
         <h1 id="hero-heading" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
-          Democracy is not a spectator<br />sport.
+          {t('heroTitle').split('.').map((s, i) => i === 0 ? <span key={i}>{s}.<br /></span> : null)}
         </h1>
 
         <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', maxWidth: 540, margin: '0 auto 2rem', lineHeight: 1.7 }}>
           {isSimplifiedMode
             ? 'Learn how elections work in a fun, easy way. No confusing words!'
-            : 'An immersive, gamified learning experience covering every dimension of the electoral process — history, jargon, simulation, and more.'}
+            : t('heroSub')}
         </p>
 
         <div style={{ display: 'flex', gap: '0.875rem', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -125,7 +129,7 @@ export default function HomePage() {
             Explore the Timeline
           </Link>
           <Link href="/polling-booth" className="btn btn-ghost" style={{ background: '#FFFFFF', color: 'var(--text-primary)', borderColor: 'rgba(0,0,0,0.1)' }}>
-            Try the EVM Simulator
+            Try the <span translate="no">EVM</span> Simulator
             <ArrowRight size={15} aria-hidden="true" />
           </Link>
         </div>
