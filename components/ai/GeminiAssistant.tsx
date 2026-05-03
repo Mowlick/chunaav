@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useAppStore } from '@/store/appStore';
 
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
 interface Message {
   role: 'user' | 'ai';
   content: string;
@@ -141,7 +144,13 @@ export function GeminiAssistant() {
             {/* Chat Content */}
             <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem', background: '#FAFAFA' }}>
               {messages.map((msg, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.2, delay: i === messages.length - 1 ? 0.1 : 0 }}
+                  style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}
+                >
                   <div style={{
                     maxWidth: '85%',
                     padding: '0.75rem 1rem',
@@ -153,9 +162,35 @@ export function GeminiAssistant() {
                     boxShadow: msg.role === 'ai' ? '0 3px 8px rgba(0,0,0,0.03)' : '0 3px 8px rgba(0,0,0,0.1)',
                     border: msg.role === 'ai' ? '1px solid var(--border-glass)' : 'none'
                   }}>
-                    {msg.content}
+                    {msg.role === 'user' ? (
+                      msg.content
+                    ) : (
+                      <ReactMarkdown 
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({ children }) => <p style={{ margin: '0 0 0.75rem 0' }}>{children}</p>,
+                          ul: ({ children }) => <ul style={{ margin: '0 0 0.75rem 0', paddingLeft: '1.2rem' }}>{children}</ul>,
+                          ol: ({ children }) => <ol style={{ margin: '0 0 0.75rem 0', paddingLeft: '1.2rem' }}>{children}</ol>,
+                          li: ({ children }) => <li style={{ marginBottom: '0.25rem' }}>{children}</li>,
+                          strong: ({ children }) => <strong style={{ fontWeight: 700, color: 'var(--accent-primary)' }}>{children}</strong>,
+                          code: ({ children }) => (
+                            <code style={{ 
+                              background: 'rgba(0,0,0,0.05)', 
+                              padding: '0.2rem 0.4rem', 
+                              borderRadius: '4px', 
+                              fontSize: '0.9em',
+                              fontFamily: 'monospace'
+                            }}>
+                              {children}
+                            </code>
+                          ),
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
+                    )}
                   </div>
-                </div>
+                </motion.div>
               ))}
               {isTyping && (
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
