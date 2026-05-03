@@ -275,7 +275,6 @@ export default function TimelinePage() {
               <QuizBlock
                 questions={TIMELINE_QUIZ}
                 pointsPerQuestion={30}
-                limit={3}
                 onComplete={(score, total) => setQuizDone(true)}
               />
             </motion.div>

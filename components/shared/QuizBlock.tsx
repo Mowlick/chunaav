@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { CheckCircle, XCircle, Zap } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 
@@ -16,21 +16,12 @@ interface QuizBlockProps {
   questions: QuizQuestion[];
   pointsPerQuestion?: number;
   onComplete?: (score: number, total: number) => void;
-  limit?: number; // Only show X questions from the pool
-  shuffle?: boolean; // Whether to shuffle the questions
 }
 
 type AnswerState = 'unanswered' | 'correct' | 'wrong';
 
-export function QuizBlock({ 
-  questions, 
-  pointsPerQuestion = 30, 
-  onComplete,
-  limit,
-  shuffle = true
-}: QuizBlockProps) {
+export function QuizBlock({ questions, pointsPerQuestion = 30, onComplete }: QuizBlockProps) {
   const addPoints = useAppStore((s) => s.addPoints);
-  const [shuffledQuestions, setShuffledQuestions] = useState<QuizQuestion[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [answerState, setAnswerState] = useState<AnswerState>('unanswered');
@@ -39,45 +30,10 @@ export function QuizBlock({
   const [showExplanation, setShowExplanation] = useState(false);
   const pointsPopRef = useRef<HTMLDivElement>(null);
 
-  // Initialize/Shuffle questions
-  useEffect(() => {
-    let pool = [...questions];
-    if (shuffle) {
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
-    }
-    if (limit) {
-      pool = pool.slice(0, limit);
-    }
-    setShuffledQuestions(pool);
-  }, [questions, limit, shuffle]);
-
-  const resetQuiz = () => {
-    setCurrentQ(0);
-    setSelected(null);
-    setAnswerState('unanswered');
-    setShowExplanation(false);
-    setScore(0);
-    setDone(false);
-    
-    // Reshuffle for next time
-    let pool = [...questions];
-    if (shuffle) {
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
-    }
-    if (limit) pool = pool.slice(0, limit);
-    setShuffledQuestions(pool);
-  };
-
-  const q = shuffledQuestions[currentQ];
+  const q = questions[currentQ];
 
   const handleSelect = (idx: number) => {
-    if (!q || answerState !== 'unanswered') return;
+    if (answerState !== 'unanswered') return;
     setSelected(idx);
     const correct = idx === q.correctIndex;
     setAnswerState(correct ? 'correct' : 'wrong');
@@ -96,22 +52,20 @@ export function QuizBlock({
   };
 
   const handleNext = () => {
-    if (currentQ < shuffledQuestions.length - 1) {
+    if (currentQ < questions.length - 1) {
       setCurrentQ((q) => q + 1);
       setSelected(null);
       setAnswerState('unanswered');
       setShowExplanation(false);
     } else {
       setDone(true);
-      onComplete?.(score + (answerState === 'correct' ? 1 : 0), shuffledQuestions.length);
+      onComplete?.(score + (answerState === 'correct' ? 1 : 0), questions.length);
     }
   };
 
-  if (shuffledQuestions.length === 0) return null;
-
   if (done) {
     const finalScore = score;
-    const total = shuffledQuestions.length;
+    const total = questions.length;
     const pct = Math.round((finalScore / total) * 100);
     const isGreat = pct >= 70;
 
@@ -130,7 +84,7 @@ export function QuizBlock({
         </div>
         <button
           className="btn btn-ghost"
-          onClick={resetQuiz}
+          onClick={() => { setCurrentQ(0); setSelected(null); setAnswerState('unanswered'); setShowExplanation(false); setScore(0); setDone(false); }}
           style={{ fontSize: '0.85rem' }}
         >
           Try Again
@@ -144,10 +98,10 @@ export function QuizBlock({
       {/* Progress */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
         <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontFamily: 'Fira Code, monospace' }}>
-          Question {currentQ + 1} of {shuffledQuestions.length}
+          Question {currentQ + 1} of {questions.length}
         </span>
         <div style={{ display: 'flex', gap: '4px' }}>
-          {shuffledQuestions.map((_, i) => (
+          {questions.map((_, i) => (
             <div key={i} style={{ width: 24, height: 4, borderRadius: 2, background: i <= currentQ ? 'var(--accent-primary)' : 'rgba(255,255,255,0.1)', transition: 'background 0.3s' }} />
           ))}
         </div>
@@ -232,16 +186,16 @@ export function QuizBlock({
         </div>
       )}
 
-    {/* Next button */}
-    {answerState !== 'unanswered' && (
-      <button
-        className="btn btn-primary"
-        onClick={handleNext}
-        style={{ marginTop: '1.25rem', width: '100%', justifyContent: 'center' }}
-      >
-        {currentQ < shuffledQuestions.length - 1 ? 'Next Question →' : 'See Results'}
-      </button>
-    )}
+      {/* Next button */}
+      {answerState !== 'unanswered' && (
+        <button
+          className="btn btn-primary"
+          onClick={handleNext}
+          style={{ marginTop: '1.25rem', width: '100%', justifyContent: 'center' }}
+        >
+          {currentQ < questions.length - 1 ? 'Next Question →' : 'See Results'}
+        </button>
+      )}
 
       <div ref={pointsPopRef} />
     </div>
