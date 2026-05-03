@@ -97,7 +97,7 @@ const STATS = [
 ];
 
 export default function HomePage() {
-  const { isSimplifiedMode, civicPoints, isSidebarCollapsed, t } = useAppStore();
+  const { isSimplifiedMode, civicPoints, isSidebarCollapsed } = useAppStore();
 
   return (
     <div style={{ 
@@ -114,13 +114,13 @@ export default function HomePage() {
         </div>
 
         <h1 id="hero-heading" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
-          {t('heroTitle').split('.').map((s, i) => i === 0 ? <span key={i}>{s}.<br /></span> : null)}
+          Democracy is not a spectator sport.
         </h1>
 
         <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', maxWidth: 540, margin: '0 auto 2rem', lineHeight: 1.7 }}>
           {isSimplifiedMode
             ? 'Learn how elections work in a fun, easy way. No confusing words!'
-            : t('heroSub')}
+            : 'An immersive, gamified learning experience covering every dimension of the electoral process — history, jargon, simulation, and more.'}
         </p>
 
         <div style={{ display: 'flex', gap: '0.875rem', justifyContent: 'center', flexWrap: 'wrap' }}>

@@ -17,15 +17,9 @@
 .DS_Store
 *.pem
 
-# env files
-.env*
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
 # secrets
-google-cloud-key.json
+# .env.local is already ignored by next.js defaults but explicitly listed here
+.env.local
 
 # vercel
 .vercel

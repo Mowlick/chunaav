@@ -11,7 +11,6 @@ interface ShellProps {
 
 export function LayoutShell({ children }: ShellProps) {
   const isSidebarCollapsed = useAppStore((s) => s.isSidebarCollapsed);
-  const isTranslating = useAppStore((s) => s.isTranslating);
 
   return (
     <>
@@ -32,11 +31,6 @@ export function LayoutShell({ children }: ShellProps) {
             id="main-content"
             className={`main-content with-left${isSidebarCollapsed ? ' collapsed' : ''}`}
             aria-label="Main content"
-            style={{ 
-              opacity: isTranslating ? 0.5 : 1,
-              transition: 'opacity 0.2s ease-in-out',
-              pointerEvents: isTranslating ? 'none' : 'auto'
-            }}
           >
             <div className="fade-in-up">{children}</div>
           </main>

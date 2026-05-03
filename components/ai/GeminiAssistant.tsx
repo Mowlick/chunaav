@@ -18,7 +18,7 @@ export function GeminiAssistant() {
   const [isTyping, setIsTyping] = useState(false);
   const pathname = usePathname();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { t, currentLanguage } = useAppStore();
+  const { isSimplifiedMode } = useAppStore();
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -27,21 +27,20 @@ export function GeminiAssistant() {
     }
   }, [messages, isTyping]);
 
-  // Contextual initial greeting - Reset on language change
+  // Contextual initial greeting
   useEffect(() => {
     if (isOpen) {
-      let greeting = t('greeting');
+      let greeting = "Namaste! I'm your Chunaav Assistant. How can I help you today?";
 
-      // Page-specific overrides (keep in English if not in dictionary yet, or translate)
-      if (pathname === '/timeline' && currentLanguage === 'en') {
+      if (pathname === '/timeline') {
         greeting = "Curious about electoral history? Ask me anything about the milestones of Indian democracy!";
-      } else if (pathname === '/machinery' && currentLanguage === 'en') {
+      } else if (pathname === '/machinery') {
         greeting = "The ECI machinery is massive! Want to know more about specific roles or powers?";
       }
 
       setMessages([{ role: 'ai', content: greeting }]);
     }
-  }, [isOpen, pathname, currentLanguage, t]);
+  }, [isOpen, pathname]);
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -64,13 +63,16 @@ export function GeminiAssistant() {
         }),
       });
 
-      if (!response.ok) throw new Error('AI search failed');
-
       const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'AI search failed');
+      }
+
       setMessages((prev) => [...prev, { role: 'ai', content: data.text }]);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      setMessages((prev) => [...prev, { role: 'ai', content: "I'm sorry, I encountered an error. Please try again in a moment." }]);
+      setMessages((prev) => [...prev, { role: 'ai', content: error.message || "I'm sorry, I encountered an error. Please try again in a moment." }]);
     } finally {
       setIsTyping(false);
     }
@@ -124,7 +126,7 @@ export function GeminiAssistant() {
                   <Sparkles size={16} color="white" />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>{t('assistantName')}</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>Chunaav Assistant</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.6rem', color: 'var(--accent-secondary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--accent-secondary)' }} />
                     Active

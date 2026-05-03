@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
     // Using gemini-1.5-flash which is the standard identifier for the fast model
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash-lite',
     });
 
     // We can also prepend the system instruction as a "user" message if the SDK property fails
@@ -68,10 +68,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ text });
   } catch (error: any) {
     console.error('Gemini API Error Detail:', error);
-    
+
     if (error.status === 429 || error.message?.includes('429')) {
-      return NextResponse.json({ 
-        error: 'The AI assistant has reached its capacity. Please wait a minute before trying again.' 
+      return NextResponse.json({
+        error: 'The AI assistant has reached its capacity. Please wait a minute before trying again.'
       }, { status: 429 });
     }
 
