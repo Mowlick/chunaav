@@ -1,7 +1,6 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { google } from '@ai-sdk/google';
+import { generateText } from 'ai';
 import { NextResponse } from 'next/server';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 const SYSTEM_INSTRUCTION = `
 You are the "Chunaav Assistant", a friendly and expert AI concierge for the Chunaav application.
@@ -29,41 +28,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
     const { messages } = await req.json();
-
-    // Using gemini-1.5-flash which is the standard identifier for the fast model
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-    });
-
-    // We can also prepend the system instruction as a "user" message if the SDK property fails
-    // But systemInstruction is the correct way for 0.24.x
-    // I'll try one more time with the property but ensuring the model name is clean.
-
-    const chat = model.startChat({
-      history: messages
-        .slice(0, -1)
-        .filter((m: any, i: number) => {
-          if (i === 0 && m.role === 'ai') return false;
-          return true;
-        })
-        .map((m: any) => ({
-          role: m.role === 'user' ? 'user' : 'model',
-          parts: [{ text: m.content }],
-        })),
-      // Move system instruction here if needed, or stick to the getGenerativeModel config
-    });
-
-    // To be safer against 404, we'll use generateContent with the system instruction prepended 
-    // if startChat continues to fail. But let's try the history approach first.
-
     const latestMessage = messages[messages.length - 1].content;
-    const prompt = `[SYSTEM INSTRUCTION]: ${SYSTEM_INSTRUCTION}\n\n[USER]: ${latestMessage}`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const { text } = await generateText({
+      model: google('gemini-1.5-flash'),
+      system: SYSTEM_INSTRUCTION,
+      prompt: latestMessage,
+    });
 
     return NextResponse.json({ text });
   } catch (error: any) {
