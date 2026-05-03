@@ -254,4 +254,25 @@ export const TIMELINE_QUIZ: QuizQuestion[] = [
     correctIndex: 2,
     explanation: 'The very first EVM trial was conducted in North Paravur constituency in Kerala during the 1982 state assembly by-election.',
   },
+  {
+    id: 'q4',
+    question: 'Who was the Chief Election Commissioner known for strictly enforcing the Model Code of Conduct in the 1990s?',
+    options: ['Sukumar Sen', 'T.N. Seshan', 'Sunil Arora', 'M.S. Gill'],
+    correctIndex: 1,
+    explanation: 'T.N. Seshan (1990–96) is credited with transforming the ECI into a powerful institution and enforcing the Model Code of Conduct strictly.',
+  },
+  {
+    id: 'q5',
+    question: 'For how many seconds is the VVPAT slip visible behind the glass screen?',
+    options: ['3 seconds', '5 seconds', '7 seconds', '10 seconds'],
+    correctIndex: 2,
+    explanation: 'The VVPAT slip is visible for 7 seconds, allowing the voter to verify their choice before it falls into the sealed box.',
+  },
+  {
+    id: 'q6',
+    question: 'Approximately how many eligible voters were there in the 2019 General Election?',
+    options: ['500 Million', '750 Million', '900 Million', '1.2 Billion'],
+    correctIndex: 2,
+    explanation: 'The 2019 election was the largest in history at the time with 900 million eligible voters.',
+  },
 ];
