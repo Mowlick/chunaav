@@ -1,6 +1,10 @@
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateText } from 'ai';
 import { NextResponse } from 'next/server';
+
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY || '',
+});
 
 const SYSTEM_INSTRUCTION = `
 You are the "Chunaav Assistant", a friendly and expert AI concierge for the Chunaav application.
@@ -32,7 +36,7 @@ export async function POST(req: Request) {
     const latestMessage = messages[messages.length - 1].content;
 
     const { text } = await generateText({
-      model: google('gemini-1.5-flash'),
+      model: google('gemini-2.0-flash-lite'),
       system: SYSTEM_INSTRUCTION,
       prompt: latestMessage,
     });
