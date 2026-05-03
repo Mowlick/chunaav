@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     const latestMessage = messages[messages.length - 1].content;
 
     const { text } = await generateText({
-      model: google('gemini-2.0-flash-lite'),
+      model: google('gemini-2.5-flash'),
       system: SYSTEM_INSTRUCTION,
       prompt: latestMessage,
     });
